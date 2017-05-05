@@ -25,7 +25,11 @@
     "webpack-dev-server": "^1.15.1"
   },
   "dependencies": {
+    "babel-preset-es2016": "^6.24.1",
+    "babel-preset-node6-es6": "^11.2.5",
     "classnames": "^2.2.5",
+    "cytoscape": "^3.1.0",
+    "es6": "0.0.7",
     "font-awesome-webpack": "0.0.4",
     "immutable": "^3.8.1",
     "less": "^2.7.1",
