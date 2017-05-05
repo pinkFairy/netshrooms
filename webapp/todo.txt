@@ -1,0 +1,5 @@
+get rid of global EventEmitter
+get rid of jquery
+#allow users with same name to be connected
+#fix refresh not disconnecting users asap
+do not rely on activeVideo
