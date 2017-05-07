@@ -16,17 +16,16 @@ class NavBar extends Component {
           <DropDownNavItem
             items={item.dropDownList}
             label={item.label}
+            key={item.label}
           />
         );
       } else {
         return (
-          <li class="nav-item">
-            <a class="nav-link active" href="#">{item.label}</a>
+          <li className="nav-item" key={item.label}>
+            <a className="nav-link active" href="#">{item.label}</a>
           </li>
         );
-
       }
-
     })
   }
 

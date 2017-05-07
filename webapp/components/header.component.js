@@ -4,27 +4,30 @@ import {connect} from 'react-redux';
 import NavBar from './navbar.component';
 
 class Header extends Component {
-
-  /*
-   * @description Render method
-   * @method render
-   * @memberOf components.header
-   */
-  render() {
-    const navItems = [
+  constructor(props){
+    super(props);
+    // initialise navItems
+    this.navItems = [
       {
         label: 'Drop-Down',
         isDropDown: true,
         dropDownList: [
           {
             label: 'Action',
-            isDropDown: false,
+            isDropDown: true,
+            dropDownList: [
+              {
+                label: 'WHAAAAT?',
+                isDropDown: false,
+              }
+            ]
           },
           {
             label: 'Another action',
             isDropDown: false,
           },
           {
+            key: 'divider',
             divider: true,
           },
           {
@@ -38,9 +41,17 @@ class Header extends Component {
         isDropDown: false,
       },
     ];
+  }
 
+
+  /*
+   * @description Render method
+   * @method render
+   * @memberOf components.header
+   */
+  render() {
     return (
-      <NavBar items={navItems} />
+      <NavBar items={this.navItems} />
     );
   }
 };

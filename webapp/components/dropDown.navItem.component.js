@@ -8,7 +8,7 @@ class DropDownNavItem extends Component {
     super(props);
     this.toggleDropDown = this.toggleDropDown.bind(this);
     this.state = {
-      dropDownVisible: true
+      dropDownVisible: false
     }
   }
 
@@ -17,8 +17,7 @@ class DropDownNavItem extends Component {
 
     return classNames({
       'nav-item dropdown': true,
-//      'btn-group': true,
-      'open': !dropDownVisible
+      'open': dropDownVisible
      });
   }
 
@@ -28,57 +27,45 @@ class DropDownNavItem extends Component {
     })
   }
 
-  renderDropDownList() {
-    const {items} = this.props;
+  renderDropDownList(items) {
 
     return items.map((item) => {
       if (item.divider) {
-        return (<li role="separator" className="divider"></li>);
+        return (<li role="separator" className="divider"  key={item.key}></li>);
       }
 
-//      if (item.isDropdown) {
-//        return (<DropDownNavItem
-//            items={item.dropDownList}
-//            label={item.label}>);
-//      }
+      if (item.isDropDown) {
+        return (
+          <li className="dropdown-submenu" key={item.label}>
+            <a tabIndex="-1" href="#">{item.label}</a>
+            <ul className="dropdown-menu">
+              {this.renderDropDownList(item.dropDownList)}
+            </ul>
+          </li>
+        );
+      }
 
-      return (<li><a href="#">${item.label}</a></li>);
+      return (<li key={item.label}><a href="#">{item.label}</a></li>);
     })
   }
 
   render() {
     const {
-      label
+      label,
+      items
     } = this.props;
 
     return (
       <li className={this.getDropDownClassName()}
-          onClick={this.toggleDropDown}>
+          onClick={this.toggleDropDown}
+          key={label}>
         <a className="nav-link dropdown-toggle">
           {label} <span className="caret"></span>
         </a>
-//        <div className="dropdown-menu">
-//          <a className="dropdown-item" href="#">Action</a>
-//          <a className="dropdown-item" href="#">Another action</a>
-//          <a className="dropdown-item" href="#">Something else here</a>
-//          <div className="dropdown-divider"></div>
-//          <a className="dropdown-item" href="#">Separated link</a>
-//        </div>
-
-        <ul className="dropdown-menu">
-          {this.renderDropDownList()}
+        <ul className="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+          {this.renderDropDownList(items)}
         </ul>
       </li>
-
-//      <div className={this.getDropDownClassName()}
-//           onClick={this.toggleDropDown}>
-//        <button className="btn btn-default btn-lg dropdown-toggle">
-//          ${label} <span className="caret"></span>
-//        </button>
-//        <ul className="dropdown-menu">
-//          {this.renderDropDownList()}
-//        </ul>
-//      </div>
     );
   }
 };
