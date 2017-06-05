@@ -31,9 +31,15 @@ class NavBar extends Component {
 
   render() {
     return (
-      <ul className="nav nav-pills">
-        {this.renderNavItems()}
-      </ul>
+      <nav className="navbar navbar-default">
+        <div className="container-fluid">
+          <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul className="nav navbar-nav">
+              {this.renderNavItems()}
+            </ul>
+          </div>
+        </div>
+      </nav>
     );
   }
 };

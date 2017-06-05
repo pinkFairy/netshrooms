@@ -8,6 +8,9 @@ import { bindActionCreators } from 'redux';
 import {getGraph} from './../actions/graph.actions';
 import {getDefaultLayout} from './../actions/layout.actions';
 
+// components
+import EditGraph from './editGraph.component';
+
 class GraphContainer extends React.Component{
   constructor(props){
     super(props);
@@ -43,7 +46,7 @@ class GraphContainer extends React.Component{
   renderCytoscapeElement(props){
     const {graph, layout} = props;
     if (graph && layout.data) {
-      console.log('layout.data[layout.current]', layout.data[layout.current]);
+
       this.cy = cytoscape({
         container: document.getElementById('cy'),
 
@@ -84,14 +87,16 @@ class GraphContainer extends React.Component{
    */
   render(){
     let cyStyle = {
-      height: '560px',
-      width: '800px',
-      margin: '20px 0px'
+      height: document.body.clientHeight - 50 + 'px',
+      width: document.body.clientWidth - 300 + 'px',
     };
 
     return (
       <div className="graph-container">
-        <div style={cyStyle} id="cy"/>
+        <div>
+          <div style={cyStyle} id="cy"/>
+        </div>
+        <EditGraph />
       </div>
     );
   }

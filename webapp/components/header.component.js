@@ -56,7 +56,7 @@ class Header extends Component {
                 label: 'GRID',
                 isDropDown: false,
                 title: 'The grid layout puts nodes in a well-spaced grid.',
-                clickHandler: () => this.handleLayoutChange(NO_LAYOUT),
+                clickHandler: () => this.handleLayoutChange(GRID_LAYOUT),
               },
               {
                 label: 'CIRCLE',
@@ -85,8 +85,22 @@ class Header extends Component {
             ]
           },
           {
-            label: 'Another action',
-            isDropDown: false,
+            label: 'ADD',
+            isDropDown: true,
+            dropDownList: [
+              {
+                label: 'NODE',
+                isDropDown: false,
+                title: 'Add a new node.',
+                clickHandler: () => this.handleLayoutChange(NO_LAYOUT),
+              },
+              {
+                label: 'EDGE',
+                isDropDown: false,
+                title: 'Add a new edge.',
+                clickHandler: () => this.handleLayoutChange(RANDOM_LAYOUT),
+              },
+            ]
           },
           {
             key: 'divider',
