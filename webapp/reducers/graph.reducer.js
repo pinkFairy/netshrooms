@@ -14,8 +14,6 @@ function graph(state = DEFAULT_STATE, action) {
         data: payload.data,
         id: payload.id
       };
-    case 'DECREMENT':
-      return state - 1;
     default:
       return state;
   }

@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import {getGraph} from './../actions/graph.actions';
+import {getDefaultLayout} from './../actions/layout.actions';
 
 class GraphContainer extends React.Component{
   constructor(props){
@@ -15,6 +16,7 @@ class GraphContainer extends React.Component{
 
     // get dependecies
     this.props.dispatch(getGraph());
+    this.props.dispatch(getDefaultLayout());
   }
 
   /*
@@ -39,8 +41,9 @@ class GraphContainer extends React.Component{
    * @param {Object} props - Component props
    */
   renderCytoscapeElement(props){
-    const {graph} = props;
-    if (graph) {
+    const {graph, layout} = props;
+    if (graph && layout.data) {
+      console.log('layout.data[layout.current]', layout.data[layout.current]);
       this.cy = cytoscape({
         container: document.getElementById('cy'),
 
@@ -70,11 +73,7 @@ class GraphContainer extends React.Component{
           }),
         elements: graph,
 
-        layout: {
-          name: 'breadthfirst',
-          directed: true,
-          padding: 10
-        }
+        layout: layout.data[layout.current]
       });
     }
   }
@@ -85,13 +84,13 @@ class GraphContainer extends React.Component{
    */
   render(){
     let cyStyle = {
-      height: '1000px',
-      width: '1000px',
+      height: '560px',
+      width: '800px',
       margin: '20px 0px'
     };
 
     return (
-      <div>
+      <div className="graph-container">
         <div style={cyStyle} id="cy"/>
       </div>
     );
@@ -100,11 +99,13 @@ class GraphContainer extends React.Component{
 
 GraphContainer.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  graph: PropTypes.object
+  graph: PropTypes.object,
+  layout: PropTypes.object,
 };
 
 export default connect((state) => {
   return {
-    graph: state.graph.data
+    graph: state.graph.data,
+    layout: state.layout,
   }
 })(GraphContainer);

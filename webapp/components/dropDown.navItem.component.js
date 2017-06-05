@@ -36,7 +36,7 @@ class DropDownNavItem extends Component {
 
       if (item.isDropDown) {
         return (
-          <li className="dropdown-submenu" key={item.label}>
+          <li className="dropdown-submenu" key={item.label} title={item.title}>
             <a tabIndex="-1" href="#">{item.label}</a>
             <ul className="dropdown-menu">
               {this.renderDropDownList(item.dropDownList)}
@@ -45,7 +45,11 @@ class DropDownNavItem extends Component {
         );
       }
 
-      return (<li key={item.label}><a href="#">{item.label}</a></li>);
+      if (item.clickHandler) {
+        return (<li key={item.label} title={item.title} onClick={item.clickHandler}><a href="#">{item.label}</a></li>);
+      }
+
+      return (<li key={item.label} title={item.title}><a href="#">{item.label}</a></li>);
     })
   }
 
