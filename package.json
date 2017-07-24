@@ -44,6 +44,7 @@
     "react-router": "^2.2.1",
     "react-router-redux": "^4.0.2",
     "redux": "^3.4.0",
+    "redux-form": "^7.0.1",
     "redux-property-graph": "^0.1.5",
     "redux-thunk": "^2.0.1",
     "screenfull": "^3.0.2",
