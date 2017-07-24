@@ -3,19 +3,42 @@ import {connect} from 'react-redux';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
+import {invalidateNode} from './../actions/node.actions';
+
 class EditGraph extends Component {
+  constructor(props){
+    super(props);
+    // bind the functions to the current instance
+    this.handleClose = this.handleClose.bind(this);
+  }
+
+  handleClose() {
+    this.props.dispatch(invalidateNode());
+  }
 
   render() {
-    return (
-      <div className="edit-graph jumbotron">
-        Add/Edit
-      </div>
-    );
+    const {node} = this.props;
+
+    if (node) {
+      return (
+        <div className="edit-graph jumbotron">
+          <span className="glyphicon glyphicon-remove pull-right" onClick={this.handleClose}/>
+          Add/Edit
+        </div>
+      );
+    }
+
+    return false;
   }
 };
 
 EditGraph.propTypes = {
-  items: PropTypes.array,
-}
+  dispatch: PropTypes.func.isRequired,
+  node: PropTypes.object,
+};
 
-export default EditGraph;
+export default connect((state) => {
+  return {
+    node: state.node.data,
+  }
+})(EditGraph);

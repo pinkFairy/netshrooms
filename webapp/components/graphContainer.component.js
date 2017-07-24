@@ -16,10 +16,19 @@ class GraphContainer extends React.Component{
     super(props);
     // bind the functions to the current instance
     this.renderCytoscapeElement = this.renderCytoscapeElement.bind(this);
+    this.updateDimensions = this.updateDimensions.bind(this);
 
-    // get dependecies
+    // get dependencies
     this.props.dispatch(getGraph());
     this.props.dispatch(getDefaultLayout());
+
+    // set state
+    this.state = {
+      cyStyle: {
+        height: window.innerHeight + 'px',
+        width: window.innerWidth + 'px',
+      },
+    };
   }
 
   /*
@@ -27,6 +36,8 @@ class GraphContainer extends React.Component{
    * @method componentDidMount
    */
   componentDidMount(){
+    // Add event listener on windows resize because the cy container needs "special" styling
+    window.addEventListener("resize", () => this.updateDimensions(this.props));
     this.renderCytoscapeElement(this.props);
   }
 
@@ -34,8 +45,36 @@ class GraphContainer extends React.Component{
    * @description Component lifecycle (called when receiving new props)
    * @method componentWillReceiveProps
    */
-  componentWillReceiveProps(nextProps) {
+  componentWillUpdate(nextProps, nextState) {
+    const {node} = nextProps;
+    if (node !== this.props.node) {
+      this.updateDimensions(nextProps);
+    }
+
     this.renderCytoscapeElement(nextProps);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", () => this.updateDimensions(this.props));
+  }
+
+  updateDimensions(props) {
+    const {node} = props;
+    let height = window.innerHeight + 'px';
+    let width = window.innerWidth + 'px';
+
+    if (node) {
+      height = window.innerHeight - 50 + 'px';
+      width = window.innerWidth - 300 + 'px';
+    }
+
+    this.forceUpdate();
+    this.setState({
+      cyStyle: {
+        height,
+        width,
+      },
+    });
   }
 
   /*
@@ -86,10 +125,9 @@ class GraphContainer extends React.Component{
    * @method render
    */
   render(){
-    let cyStyle = {
-      height: document.body.clientHeight - 50 + 'px',
-      width: document.body.clientWidth - 300 + 'px',
-    };
+    const {cyStyle} = this.state;
+    console.log('cyStyle', cyStyle.height);
+    console.log('cyStyle', cyStyle.width);
 
     return (
       <div className="graph-container">
@@ -111,6 +149,7 @@ GraphContainer.propTypes = {
 export default connect((state) => {
   return {
     graph: state.graph.data,
+    node: state.node.data,
     layout: state.layout,
   }
 })(GraphContainer);

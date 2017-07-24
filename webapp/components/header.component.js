@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 // actions
 import {changeLayout} from './../actions/layout.actions';
+import {addNode} from './../actions/node.actions';
 // components
 import NavBar from './navbar.component';
 // constants
@@ -27,90 +28,80 @@ class Header extends Component {
     // initialise navItems
     this.navItems = [
       {
-        label: 'GENERAL',
+        label: 'LAYOUT',
         isDropDown: true,
         dropDownList: [
           {
-            label: 'LAYOUT',
-            isDropDown: true,
-            dropDownList: [
-              {
-                label: 'NULL',
-                isDropDown: false,
-                title: 'The null layout puts all nodes at (0, 0). It’s useful for debugging purposes.',
-                clickHandler: () => this.handleLayoutChange(NO_LAYOUT),
-              },
-              {
-                label: 'RANDOM',
-                isDropDown: false,
-                title: 'The random layout puts nodes in random positions within the viewport.',
-                clickHandler: () => this.handleLayoutChange(RANDOM_LAYOUT),
-              },
-              {
-                label: 'PRESET',
-                isDropDown: false,
-                title: 'The preset layout puts nodes in the positions you specify manually.',
-                clickHandler: () => this.handleLayoutChange(PRESET_LAYOUT),
-              },
-              {
-                label: 'GRID',
-                isDropDown: false,
-                title: 'The grid layout puts nodes in a well-spaced grid.',
-                clickHandler: () => this.handleLayoutChange(GRID_LAYOUT),
-              },
-              {
-                label: 'CIRCLE',
-                isDropDown: false,
-                title: 'The circle layout puts nodes in a circle.',
-                clickHandler: () => this.handleLayoutChange(CIRCLE_LAYOUT),
-              },
-              {
-                label: 'CONCENTRIC',
-                isDropDown: false,
-                title: 'The concentric layout positions nodes in concentric circles, based on a metric that you specify to segregate the nodes into levels.',
-                clickHandler: () => this.handleLayoutChange(CONCENTRIC_LAYOUT),
-              },
-              {
-                label: 'BREADTHFIRST',
-                isDropDown: false,
-                title: 'The breadthfirst layout puts nodes in a hierarchy, based on a breadthfirst traversal of the graph.',
-                clickHandler: () => this.handleLayoutChange(BREADTHFIRST_LAYOUT),
-              },
-              {
-                label: 'COSE',
-                isDropDown: false,
-                title: 'The cose (Compound Spring Embedder) layout uses a physics simulation to lay out graphs.',
-                clickHandler: () => this.handleLayoutChange(COSE_LAYOUT),
-              }
-            ]
-          },
-          {
-            label: 'ADD',
-            isDropDown: true,
-            dropDownList: [
-              {
-                label: 'NODE',
-                isDropDown: false,
-                title: 'Add a new node.',
-                clickHandler: () => this.handleLayoutChange(NO_LAYOUT),
-              },
-              {
-                label: 'EDGE',
-                isDropDown: false,
-                title: 'Add a new edge.',
-                clickHandler: () => this.handleLayoutChange(RANDOM_LAYOUT),
-              },
-            ]
-          },
-          {
-            key: 'divider',
-            divider: true,
-          },
-          {
-            label: 'Something else here',
+            label: 'NULL',
             isDropDown: false,
+            title: 'The null layout puts all nodes at (0, 0). It’s useful for debugging purposes.',
+            clickHandler: () => this.handleLayoutChange(NO_LAYOUT),
           },
-        ],
+          {
+            label: 'RANDOM',
+            isDropDown: false,
+            title: 'The random layout puts nodes in random positions within the viewport.',
+            clickHandler: () => this.handleLayoutChange(RANDOM_LAYOUT),
+          },
+          {
+            label: 'PRESET',
+            isDropDown: false,
+            title: 'The preset layout puts nodes in the positions you specify manually.',
+            clickHandler: () => this.handleLayoutChange(PRESET_LAYOUT),
+          },
+          {
+            label: 'GRID',
+            isDropDown: false,
+            title: 'The grid layout puts nodes in a well-spaced grid.',
+            clickHandler: () => this.handleLayoutChange(GRID_LAYOUT),
+          },
+          {
+            label: 'CIRCLE',
+            isDropDown: false,
+            title: 'The circle layout puts nodes in a circle.',
+            clickHandler: () => this.handleLayoutChange(CIRCLE_LAYOUT),
+          },
+          {
+            label: 'CONCENTRIC',
+            isDropDown: false,
+            title: 'The concentric layout positions nodes in concentric circles, based on a metric that you specify to segregate the nodes into levels.',
+            clickHandler: () => this.handleLayoutChange(CONCENTRIC_LAYOUT),
+          },
+          {
+            label: 'BREADTHFIRST',
+            isDropDown: false,
+            title: 'The breadthfirst layout puts nodes in a hierarchy, based on a breadthfirst traversal of the graph.',
+            clickHandler: () => this.handleLayoutChange(BREADTHFIRST_LAYOUT),
+          },
+          {
+            label: 'COSE',
+            isDropDown: false,
+            title: 'The cose (Compound Spring Embedder) layout uses a physics simulation to lay out graphs.',
+            clickHandler: () => this.handleLayoutChange(COSE_LAYOUT),
+          }
+        ]
+      },
+      {
+        label: 'ADD',
+        isDropDown: true,
+        dropDownList: [
+          {
+            label: 'NODE',
+            isDropDown: false,
+            title: 'Add a new node.',
+            clickHandler: () => this.handleAddNode(),
+          },
+          {
+            label: 'EDGE',
+            isDropDown: false,
+            title: 'Add a new edge.',
+            clickHandler: () => this.handleLayoutChange(RANDOM_LAYOUT),
+          },
+        ]
+      },
+      {
+        label: 'Something else here',
+        isDropDown: false,
       },
       {
         label: 'Home',
@@ -121,6 +112,10 @@ class Header extends Component {
 
   handleLayoutChange(selectedLayout) {
     this.props.dispatch(changeLayout(selectedLayout));
+  }
+
+  handleAddNode() {
+    this.props.dispatch(addNode());
   }
   /*
    * @description Render method
