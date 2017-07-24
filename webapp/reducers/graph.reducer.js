@@ -8,11 +8,11 @@ function graph(state = DEFAULT_STATE, action) {
   const {type, payload} = action;
 
   switch (type) {
+    case 'ADD_GRAPH_SUCCESSFULLY':
     case 'RECEIVE_GRAPH_SUCCESSFULLY':
       return {
         ...state,
         data: payload.data,
-        id: payload.id
       };
     default:
       return state;

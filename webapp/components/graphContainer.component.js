@@ -19,7 +19,6 @@ class GraphContainer extends React.Component{
     this.updateDimensions = this.updateDimensions.bind(this);
 
     // get dependencies
-    this.props.dispatch(getGraph());
     this.props.dispatch(getDefaultLayout());
 
     // set state
@@ -35,7 +34,7 @@ class GraphContainer extends React.Component{
    * @description Component lifecycle (called after component is mounted)
    * @method componentDidMount
    */
-  componentDidMount(){
+  componentWillMount(){
     // Add event listener on windows resize because the cy container needs "special" styling
     window.addEventListener("resize", () => this.updateDimensions(this.props));
     this.renderCytoscapeElement(this.props);
@@ -126,8 +125,6 @@ class GraphContainer extends React.Component{
    */
   render(){
     const {cyStyle} = this.state;
-    console.log('cyStyle', cyStyle.height);
-    console.log('cyStyle', cyStyle.width);
 
     return (
       <div className="graph-container">
