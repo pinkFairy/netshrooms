@@ -1,3 +1,6 @@
+import graphService from './../services/graph.service';
+import appService from './../services/app.service';
+
 function add() {
   return {
     type: 'ADD_GRAPH',
@@ -5,7 +8,10 @@ function add() {
 }
 
 function get() {
-  const data = localStorage.getItem('cyGraph');
+  const test = localStorage.getItem('cyGraph');
+  console.log('test', test);
+
+  const data = appService.getJSONFromString(localStorage.getItem('cyGraph'));
   const actionInProgress = !data;
 
   const payload = {
@@ -26,11 +32,15 @@ function remove() {
 }
 
 function save(data) {
-  const payload = {data};
+  const adaptedData = graphService.dataAdapter(data);
+
+//  localStorage.cyGraph = appService.getStringFromObject(adaptedData);
 
   return {
     type: 'SAVE_GRAPH',
-    payload,
+    payload: {
+      data: adaptedData
+    },
   };
 }
 
