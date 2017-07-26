@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 
-import {addGraph} from './../actions/graph.actions';
+import {saveGraph} from './../actions/graph.actions';
 
 class AddGraph extends Component {
   constructor(props){
@@ -18,7 +18,7 @@ class AddGraph extends Component {
    const stringifiedValue = JSON.stringify(eval('('+value.graph+')'));
    const parsedValue = JSON.parse(stringifiedValue);
 
-   this.props.dispatch(addGraph(parsedValue));
+   this.props.dispatch(saveGraph(parsedValue));
     this.props.closeCb();
   }
 

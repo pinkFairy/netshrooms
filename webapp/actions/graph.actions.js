@@ -1,24 +1,42 @@
+function add() {
+  return {
+    type: 'ADD_GRAPH',
+  }
+}
+
 function get() {
+  const data = localStorage.getItem('cyGraph');
+  const actionInProgress = !data;
+
   const payload = {
-    data: localStorage.getItem('cyGraph'),
+    actionInProgress,
+    data,
   }
 
   return {
-    type: 'RECEIVE_GRAPH_SUCCESSFULLY',
+    type: 'GET_GRAPH',
     payload,
   }
 }
 
-function add(data) {
+function remove() {
+  return {
+    type: 'REMOVE_GRAPH',
+  }
+}
+
+function save(data) {
   const payload = {data};
 
   return {
-    type: 'ADD_GRAPH_SUCCESSFULLY',
+    type: 'SAVE_GRAPH',
     payload,
   };
 }
 
 export {
   add as addGraph,
-  get as getGraph
+  get as getGraph,
+  remove as removeGraph,
+  save as saveGraph,
 }

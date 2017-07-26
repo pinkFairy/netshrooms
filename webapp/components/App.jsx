@@ -7,16 +7,13 @@ import GraphContainer from './graphContainer.component.js';
 import Header from './header.component.js';
 import AddGraph from './add.graph.component.js';
 
-import {getGraph} from './../actions/graph.actions';
+import {getGraph, removeGraph} from './../actions/graph.actions';
 
 class App extends React.Component {
   constructor(props){
     super(props);
     // bind the functions to the current instance
     this.closeAddGraphModal = this.closeAddGraphModal.bind(this);
-    this.state = {
-      modalClosed: false
-    }
   }
 
   componentWillMount() {
@@ -24,25 +21,22 @@ class App extends React.Component {
   }
 
   closeAddGraphModal() {
-    this.setState({
-      modalClosed: true,
-    });
+    this.props.dispatch(removeGraph());
   }
 
   render() {
     const {graph} = this.props;
-    const {modalClosed} = this.state;
 
-    if (graph.data || modalClosed) {
-      return (
-        <div>
-          <Header />
-          <GraphContainer />
-        </div>
-      );
+    if (graph.actionInProgress) {
+      return (<AddGraph closeCb={this.closeAddGraphModal}/>);
     }
 
-    return (<AddGraph closeCb={this.closeAddGraphModal}/>);
+    return (
+      <div>
+        <Header />
+        <GraphContainer />
+      </div>
+    );
   }
 };
 

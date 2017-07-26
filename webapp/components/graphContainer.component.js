@@ -31,12 +31,19 @@ class GraphContainer extends React.Component{
   }
 
   /*
-   * @description Component lifecycle (called after component is mounted)
-   * @method componentDidMount
+   * @description Component lifecycle (called before component is mounted)
+   * @method componentWillMount
    */
   componentWillMount(){
     // Add event listener on windows resize because the cy container needs "special" styling
     window.addEventListener("resize", () => this.updateDimensions(this.props));
+  }
+
+  /*
+   * @description Component lifecycle (called after component is mounted)
+   * @method componentDidMount
+   */
+  componentDidMount() {
     this.renderCytoscapeElement(this.props);
   }
 
@@ -83,7 +90,7 @@ class GraphContainer extends React.Component{
    */
   renderCytoscapeElement(props){
     const {graph, layout} = props;
-    if (graph && layout.data) {
+    if (layout.data) {
 
       this.cy = cytoscape({
         container: document.getElementById('cy'),
@@ -111,6 +118,14 @@ class GraphContainer extends React.Component{
               'target-arrow-color': '#ffaaaa',
               'curve-style': 'bezier',
               'content': 'data(name)'
+          })
+          .selector('.parent')
+          .css({
+            'shape': 'star'
+          })
+          .selector('.file')
+          .css({
+            'shape': 'roundrectangle'
           }),
         elements: graph,
 
