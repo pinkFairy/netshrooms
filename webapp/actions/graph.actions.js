@@ -8,9 +8,6 @@ function add() {
 }
 
 function get() {
-  const test = localStorage.getItem('cyGraph');
-  console.log('test', test);
-
   const data = appService.getJSONFromString(localStorage.getItem('cyGraph'));
   const actionInProgress = !data;
 
@@ -33,8 +30,7 @@ function remove() {
 
 function save(data) {
   const adaptedData = graphService.dataAdapter(data);
-
-//  localStorage.cyGraph = appService.getStringFromObject(adaptedData);
+  localStorage.setItem('cyGraph', JSON.stringify(adaptedData));
 
   return {
     type: 'SAVE_GRAPH',
