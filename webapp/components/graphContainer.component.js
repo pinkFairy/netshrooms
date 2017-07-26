@@ -24,8 +24,8 @@ class GraphContainer extends React.Component{
     // set state
     this.state = {
       cyStyle: {
-        height: window.innerHeight + 'px',
-        width: window.innerWidth + 'px',
+        height: window.innerHeight - 17 + 'px',
+        width: window.innerWidth - 17 + 'px',
       },
     };
   }
@@ -60,14 +60,22 @@ class GraphContainer extends React.Component{
     this.renderCytoscapeElement(nextProps);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const {cyStyle: {width}} = prevState;
+
+    if (width !== this.state.cyStyle.width) {
+      this.renderCytoscapeElement(prevProps);
+    }
+  }
+
   componentWillUnmount() {
     window.removeEventListener("resize", () => this.updateDimensions(this.props));
   }
 
   updateDimensions(props) {
     const {node} = props;
-    let height = window.innerHeight + 'px';
-    let width = window.innerWidth + 'px';
+    let height = window.innerHeight - 17 + 'px';
+    let width = window.innerWidth - 17 + 'px';
 
     if (node) {
       height = window.innerHeight - 50 + 'px';
