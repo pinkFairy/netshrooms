@@ -9,7 +9,7 @@ import {getGraph} from './../actions/graph.actions';
 import {getDefaultLayout} from './../actions/layout.actions';
 
 // components
-import EditGraph from './editGraph.component';
+import NodeForm from './node.form.component';
 
 class GraphContainer extends React.Component{
   constructor(props){
@@ -154,7 +154,7 @@ class GraphContainer extends React.Component{
         <div>
           <div style={cyStyle} id="cy"/>
         </div>
-        <EditGraph />
+        <NodeForm />
       </div>
     );
   }
