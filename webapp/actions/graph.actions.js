@@ -29,13 +29,13 @@ function remove() {
 }
 
 function save(data) {
-  const adaptedData = graphService.dataAdapter(data);
-  localStorage.setItem('cyGraph', JSON.stringify(adaptedData));
+  const parsedValue = appService.getJSONFromIncorrectObject(data);
+  localStorage.setItem('cyGraph', JSON.stringify(parsedValue));
 
   return {
     type: 'SAVE_GRAPH',
     payload: {
-      data: adaptedData
+      data: parsedValue
     },
   };
 }

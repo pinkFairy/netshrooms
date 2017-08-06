@@ -8,9 +8,9 @@ service.getJSONFromString = (string) => {
   return JSON.parse(string);
 }
 
-service.getJSONFromIncorrectObject = (object) => {
-  const correctStringValue = JSON.stringify(eval('('+object+')'));
-  return JSON.parse(correctStringValue);
+service.getJSONFromIncorrectObject = (data) => {
+   const stringifiedValue = JSON.stringify(eval('('+data+')'));
+   return JSON.parse(stringifiedValue);
 }
 
 export default service;

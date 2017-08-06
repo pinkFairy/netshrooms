@@ -1,12 +1,14 @@
 import React,{Component} from 'react';
-import cytoscape from 'cytoscape';
 import PropTypes from 'prop-types';
 
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import {getGraph} from './../actions/graph.actions';
+// actions
 import {getDefaultLayout} from './../actions/layout.actions';
+
+// services
+import cyService from './../services/cy.service';
 
 // components
 import NodeForm from './node.form.component';
@@ -98,46 +100,17 @@ class GraphContainer extends React.Component{
    */
   renderCytoscapeElement(props){
     const {graph, layout} = props;
+
     if (layout.data) {
+      this.cy = cyService.get(graph, layout.data[layout.current]);
+    }
 
-      this.cy = cytoscape({
-        container: document.getElementById('cy'),
-
-        boxSelectionEnabled: false,
-        autounselectify: false,
-
-        style: cytoscape.stylesheet()
-          .selector('node')
-          .css({
-              'height': 80,
-              'width': 80,
-              'background-fit': 'cover',
-              'border-color': '#000',
-              'border-width': 3,
-              'border-opacity': 0.5,
-              'content': 'data(name)',
-              'text-valign': 'center',
-          })
-          .selector('edge')
-          .css({
-              'width': 6,
-              'target-arrow-shape': 'triangle',
-              'line-color': '#ffaaaa',
-              'target-arrow-color': '#ffaaaa',
-              'curve-style': 'bezier',
-              'content': 'data(name)'
-          })
-          .selector('.parent')
-          .css({
-            'shape': 'star'
-          })
-          .selector('.file')
-          .css({
-            'shape': 'roundrectangle'
-          }),
-        elements: graph,
-
-        layout: layout.data[layout.current]
+    if (this.cy) {
+       this.cy.on('tap', 'node', function (evt) {
+           console.log('evt', evt);
+           console.log('evt.cyTarget', evt.target);
+           console.log('evt.cyTarget', evt.target['_private'].data.id);
+           console.log('evt.cyTarget 3x', evt.target.id());
       });
     }
   }

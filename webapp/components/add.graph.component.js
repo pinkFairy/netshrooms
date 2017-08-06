@@ -15,10 +15,7 @@ class AddGraph extends Component {
   }
 
   handleFormSubmit(value) {
-   const stringifiedValue = JSON.stringify(eval('('+value.graph+')'));
-   const parsedValue = JSON.parse(stringifiedValue);
-
-   this.props.dispatch(saveGraph(parsedValue));
+    this.props.dispatch(saveGraph(value.graph));
     this.props.closeCb();
   }
 
