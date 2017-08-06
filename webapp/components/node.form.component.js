@@ -5,7 +5,7 @@ import {Fields, Field, FieldArray, reduxForm} from 'redux-form';
 import PropTypes from 'prop-types';
 
 // actions
-import {invalidateNode} from './../actions/node.actions';
+import {invalidateNode, saveNode} from './../actions/node.actions';
 
 // constants
 import {
@@ -27,6 +27,7 @@ class NodeForm extends Component {
     // bind the functions to the current instance
     this.handleClose = this.handleClose.bind(this);
     this.renderNodeSpecificFields = this.renderNodeSpecificFields.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
   handleClose() {
@@ -39,12 +40,18 @@ class NodeForm extends Component {
     dispatch(invalidateNode());
   }
 
+  handleFormSubmit(values) {
+    this.props.dispatch(saveNode(values));
+    this.handleClose();
+  }
+
   renderSimpleNode() {
     return (
       <div>
         <div className="form-group">
           <label>Select type</label>
           <Field className="form-control" name={'type'} component="select">
+            <option value="">Select a type...</option>
             <option value={STRING}>{STRING}</option>
             <option value={NUMBER}>{NUMBER}</option>
             <option value={BOOLEAN}>{BOOLEAN}</option>
@@ -63,8 +70,8 @@ class NodeForm extends Component {
   renderOperationNode() {
     return (
       <div>
-        <FieldArray name="inputsGroup" component={this.renderInputFields} />
-        <FieldArray name="outputsGroup" component={this.renderOutputFields} />
+        <FieldArray name="inputs" component={this.renderInputFields} />
+        <FieldArray name="outputs" component={this.renderOutputFields} />
       </div>
     );
   }
@@ -79,7 +86,8 @@ class NodeForm extends Component {
           <div className="form-group" key={index}>
             <span className="glyphicon glyphicon-remove pull-right" onClick={() => fields.remove(index)}/>
             <label>Input #{index + 1}</label>
-            <Field className="form-control" name={`${input}.input`} component="select">
+            <Field className="form-control" name={`${input}`} component="select">
+              <option value="">Select a type...</option>
               <option value={STRING}>{STRING}</option>
               <option value={NUMBER}>{NUMBER}</option>
               <option value={BOOLEAN}>{BOOLEAN}</option>
@@ -102,7 +110,8 @@ class NodeForm extends Component {
           <div className="form-group" key={index}>
             <span className="glyphicon glyphicon-remove pull-right" onClick={() => fields.remove(index)}/>
             <label>Output #{index + 1}</label>
-            <Field className="form-control" name={`${output}.output`} component="select">
+            <Field className="form-control" name={`${output}`} component="select">
+              <option value="">Select a type...</option>
               <option value={STRING}>{STRING}</option>
               <option value={NUMBER}>{NUMBER}</option>
               <option value={BOOLEAN}>{BOOLEAN}</option>
@@ -137,46 +146,49 @@ class NodeForm extends Component {
   render() {
     const {node, handleSubmit, reset} = this.props;
 
-    return (
-      <div className="edit-graph jumbotron">
-        <span className="glyphicon glyphicon-remove pull-right" onClick={this.handleClose}/>
-        <h4>Add Node</h4>
+    if (node) {
+      return (
+        <div className="edit-graph jumbotron">
+          <span className="glyphicon glyphicon-remove pull-right" onClick={this.handleClose}/>
+          <h4>Add Node</h4>
 
-        <form className="form-lateral" role="form" onSubmit={handleSubmit} >
-          <div className="form-group">
-            <label>Name</label>
-            <Field className="form-control" name="name" component="input" type="text" value=""/>
-          </div>
-
-          <div className="form-group">
-            <label>Select node type</label>
-            <div className="form-radio-box">
-              <label><Field name="nodeType" component="input" type="radio" value={SIMPLE_NODE}/> Simple</label>
-              <label><Field name="nodeType" component="input" type="radio" value={OPERATION_NODE}/> Operation</label>
-              <label><Field name="nodeType" disabled component="input" type="radio" value={PARENT_NODE}/> Parent</label>
+          <form className="form-lateral" role="form" onSubmit={handleSubmit(this.handleFormSubmit)} >
+            <div className="form-group">
+              <label>Name</label>
+              <Field className="form-control" name="name" component="input" type="text" value=""/>
             </div>
-          </div>
 
-          <Fields names={['nodeType']} component={this.renderNodeSpecificFields}/>
+            <div className="form-group">
+              <label>Select node type</label>
+              <div className="form-radio-box">
+                <label><Field name="nodeType" component="input" type="radio" value={SIMPLE_NODE}/> Simple</label>
+                <label><Field name="nodeType" component="input" type="radio" value={OPERATION_NODE}/> Operation</label>
+                <label><Field name="nodeType" disabled component="input" type="radio" value={PARENT_NODE}/> Parent</label>
+              </div>
+            </div>
 
-          <div>
-            <button type="button" className="btn btn-default" onClick={reset}>
-              Clear value
-            </button>
-            <button type="submit" className="btn btn-primary">
-              Save changes
-            </button>
-          </div>
-        </form>
-      </div>
-    );
+            <Fields names={['nodeType']} component={this.renderNodeSpecificFields}/>
+
+            <div>
+              <button type="button" className="btn btn-default" onClick={reset}>
+                Clear value
+              </button>
+              <button type="submit" className="btn btn-primary">
+                Save changes
+              </button>
+            </div>
+          </form>
+        </div>
+      );
+    }
+
+    return false;
   }
 };
 
 NodeForm.propTypes = {
   dispatch: PropTypes.func.isRequired,
   node: PropTypes.object,
-  values: PropTypes.string,
 };
 
 NodeForm = reduxForm({

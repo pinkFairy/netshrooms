@@ -29,7 +29,14 @@ function remove() {
 }
 
 function save(data) {
-  const parsedValue = appService.getJSONFromIncorrectObject(data);
+  let parsedValue = {};
+
+  if (typeof data === 'string') {
+    parsedValue = appService.getJSONFromIncorrectObject(data);
+  } else if (typeof data === 'object') {
+    parsedValue = data;
+  }
+
   localStorage.setItem('cyGraph', JSON.stringify(parsedValue));
 
   return {

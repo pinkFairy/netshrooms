@@ -37,11 +37,10 @@ service.nodeAdapter = (node) => {
 
     if (children) {
       adaptedNode.classes = 'parent';
-    }
-    if (operation) {
+    } else if (operation) {
       adaptedNode.classes = 'operation';
-    }
-    if (type) {
+    } else if (type) {
+      // TODO add value formatter based on type
       adaptedNode.classes = 'file';
     }
 
